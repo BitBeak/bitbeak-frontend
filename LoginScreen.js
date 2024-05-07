@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Imag
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 
-const App = () => {
+const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -149,4 +149,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default LoginScreen;
