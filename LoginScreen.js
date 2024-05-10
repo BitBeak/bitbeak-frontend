@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Image, Button, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 
@@ -7,6 +7,8 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [error, setError] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   useEffect(() => {
     async function loadFonts() {
@@ -19,6 +21,26 @@ const LoginScreen = () => {
     }
     loadFonts();
   }, []);
+
+  const validateInput = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Por favor, insira um e-mail válido.');
+      return false;
+    }
+    if (password.length === 0) {
+      setError('Por favor, insira sua senha.');
+      return false;
+    }
+    setError('');
+    return true;
+  };
+
+  const handleLogin = () => {
+    if (validateInput()) {
+      console.log('Login successful');
+    }
+  };
 
   if (!fontsLoaded) {
     return <View><Text>Loading...</Text></View>;
@@ -37,15 +59,21 @@ const LoginScreen = () => {
           keyboardType="email-address"
           placeholderTextColor="#012768"
         />
-        <TextInput
-          style={styles.inputPassword}
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry
-          placeholder="Senha"
-          placeholderTextColor="#012768"
-        />
-        <TouchableOpacity style={styles.button}>
+        <View style={styles.inputPasswordContainer}>
+          <TextInput
+            style={styles.inputPassword}
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry={!passwordVisible}
+            placeholder="Senha"
+            placeholderTextColor="#012768"
+          />
+          <TouchableWithoutFeedback onPress={() => setPasswordVisible(!passwordVisible)}>
+            <Text style={styles.toggleIcon}>{passwordVisible ? '👁️' : '👁️‍🗨️'}</Text>
+          </TouchableWithoutFeedback>
+        </View>
+        {error !== '' && <Text style={styles.errorText}>{error}</Text>}
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>INICIAR</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.registerButton}>
@@ -96,15 +124,24 @@ const styles = StyleSheet.create({
     fontFamily: 'Mulish',
     color: '#012768',
   },
-  inputPassword: {
+  inputPasswordContainer: {
+    flexDirection: 'row',
     width: 319,
     height: 63,
     backgroundColor: '#FFFFFF',
     borderRadius: 31.5,
     paddingHorizontal: 15,
-    fontSize: 18,
     marginBottom: 20,
+    alignItems: 'center',
+  },
+  inputPassword: {
+    flex: 1,
     fontFamily: 'Mulish',
+    fontSize: 18,
+    color: '#012768',
+  },
+  toggleIcon: {
+    fontSize: 24,
     color: '#012768',
   },
   button: {
@@ -143,9 +180,9 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     textAlign: 'center',
   },
-  footer: {
-    flexDirection: 'column',
-    alignItems: 'center',
+  errorText: {
+    color: '#FFFFFF',
+    marginBottom: 10,
   },
 });
 
