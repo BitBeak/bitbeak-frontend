@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 
-const RegistrationScreen = () => {
+const SignUpScreen = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,6 +21,33 @@ const RegistrationScreen = () => {
     }
     loadFonts();
   }, []);
+
+  const validateEmail = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  };
+
+  const handleRegistration = () => {
+    if (!username || !email || !password || !confirmPassword) {
+      Alert.alert("Validation Error", "Please fill in all fields.");
+      return;
+    }
+    if (!validateEmail(email)) {
+      Alert.alert("Validation Error", "Please enter a valid email address.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert("Validation Error", "Passwords do not match.");
+      return;
+    }
+    if (password.length < 8) {
+      Alert.alert("Validation Error", "Password should be at least 8 characters long.");
+      return;
+    }
+
+    // Proceed with registration logic here
+    Alert.alert("Success", "You have successfully registered.");
+  };
 
   if (!fontsLoaded) {
     return <View><Text>Loading...</Text></View>;
@@ -61,7 +88,7 @@ const RegistrationScreen = () => {
           placeholder="Confirme a senha"
           placeholderTextColor="#012768"
         />
-        <TouchableOpacity style={styles.registerButton}>
+        <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
           <Text style={styles.registerButtonText}>CADASTRAR-SE</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.connectButton}>
@@ -104,25 +131,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Mulish',
     color: '#012768',
   },
-  button: {
-    width: '90%',
-    height: 50,
-    backgroundColor: '#F7B600',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-    buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  linkText: {
-    color: 'lightgrey',
-    fontSize: 16,
-    marginTop: 10,
-  },
   registerButton: {
     width: 319,
     height: 63,
@@ -155,5 +163,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Mulish',
   },
 });
-  
-export default RegistrationScreen;
+
+export default SignUpScreen;
