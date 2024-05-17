@@ -1,36 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import * as Font from 'expo-font';
-import Logo from './src/components/Logo';
-import EnterButton from './src/components/EnterButton';
-import styles from './src/styles/styles';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import InitialScreen from './src/screens/InitialScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import HomeScreen from './src/screens/HomeScreen';
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      await Font.loadAsync({
-        'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
-      });
-      setFontsLoaded(true);
-    })();
-  }, []);
-
-  if (!fontsLoaded) {
-    return <ActivityIndicator size="large" />;
-  }
-
-  const handlePress = () => {}
-
   return (
-    <SafeAreaProvider style={styles.container}>
-      <LinearGradient colors={['#012768', '#006FC2']} style={styles.background}>
-        <Logo />
-        <EnterButton onPress={handlePress} />
-      </LinearGradient>
-    </SafeAreaProvider>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="InitialScreen">
+        <Stack.Screen name="InitialScreen" component={InitialScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

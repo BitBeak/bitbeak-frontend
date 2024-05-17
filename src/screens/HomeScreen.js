@@ -6,7 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [expProgress, setExpProgress] = useState(0.5);
   const [levels, setLevels] = useState({ current: 5, total: 6 });
@@ -20,7 +20,7 @@ const HomeScreen = () => {
   useEffect(() => {
     (async () => {
       await Font.loadAsync({
-        'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
+        'Poppins-Bold': require('../../assets/fonts/Poppins-Bold.ttf'),
       });
       setFontsLoaded(true);
     })();
@@ -57,7 +57,7 @@ const HomeScreen = () => {
       <LinearGradient colors={['#012768', '#006FC2']} style={styles.container}>
         <StatusBar barStyle="light-content" backgroundColor="#012768" />
         <View style={styles.header}>
-          <Image source={require('./assets/icons/character-icon.png')} style={styles.icon} />
+          <Image source={require('../../assets/icons/character-icon.png')} style={styles.icon} />
           <View style={styles.expBarContainer}>
             <View style={styles.expBarBackground}>
               <View style={[styles.expBar, { width: `${expProgress * 100}%` }]} />
@@ -67,7 +67,7 @@ const HomeScreen = () => {
             </View>
           </View>
           <View style={styles.expDetails}>
-            <Image source={require('./assets/icons/feather-icon.png')} style={styles.featherIcon} />
+            <Image source={require('../../assets/icons/feather-icon.png')} style={styles.featherIcon} />
             <Text style={styles.expPoints}>XXX</Text>
           </View>
         </View>
@@ -112,22 +112,22 @@ const HomeScreen = () => {
         <View style={styles.navBar}>
           <TouchableOpacity>
             <View style={[styles.navIconContainer, styles.activeNavIcon]}>
-              <Image source={require('./assets/icons/trail-icon.png')} style={styles.navIcon} />
+              <Image source={require('../../assets/icons/trail-icon.png')} style={styles.navIcon} />
             </View>
           </TouchableOpacity>
           <TouchableOpacity>
             <View style={styles.navIconContainer}>
-              <Image source={require('./assets/icons/mission-icon.png')} style={styles.navIcon} />
+              <Image source={require('../../assets/icons/mission-icon.png')} style={styles.navIcon} />
             </View>
           </TouchableOpacity>
           <TouchableOpacity>
             <View style={styles.navIconContainer}>
-              <Image source={require('./assets/icons/challenge-icon.png')} style={styles.navIcon} />
+              <Image source={require('../../assets/icons/challenge-icon.png')} style={styles.navIcon} />
             </View>
           </TouchableOpacity>
           <TouchableOpacity>
             <View style={styles.navIconContainer}>
-              <Image source={require('./assets/icons/rewards-icon.png')} style={styles.navIcon} />
+              <Image source={require('../../assets/icons/rewards-icon.png')} style={styles.navIcon} />
             </View>
           </TouchableOpacity>
         </View>

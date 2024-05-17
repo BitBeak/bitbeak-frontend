@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Image, Button, TouchableWithoutFeedback } from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -13,9 +13,9 @@ const LoginScreen = () => {
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
-        'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
-        'Mulish-Bold': require('./assets/fonts/Mulish-Bold.ttf'),
-        'Mulish': require('./assets/fonts/Mulish-Regular.ttf'),
+        'Poppins-Bold': require('../../assets/fonts/Poppins-Bold.ttf'),
+        'Mulish-Bold': require('../../assets/fonts/Mulish-Bold.ttf'),
+        'Mulish': require('../../assets/fonts/Mulish-Regular.ttf'),
       });
       setFontsLoaded(true);
     }
@@ -39,17 +39,22 @@ const LoginScreen = () => {
   const handleLogin = () => {
     if (validateInput()) {
       console.log('Login successful');
+      navigation.navigate('HomeScreen');
     }
   };
 
   if (!fontsLoaded) {
-    return <View><Text>Loading...</Text></View>;
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Loading...</Text>
+      </View>
+    );
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient colors={['#012768', '#006FC2']} style={styles.gradient}>
-        <Image source={require('./assets/bitbeak-logo.png')} style={styles.logo} />
+        <Image source={require('../../assets/bitbeak-logo.png')} style={styles.logo} />
         <Text style={styles.title}>LOGIN</Text>
         <TextInput
           style={styles.inputEmail}
@@ -183,6 +188,11 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#FFFFFF',
     marginBottom: 10,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
