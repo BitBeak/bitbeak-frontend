@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Aler
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 
-const SignUpScreen = () => {
+const SignUpScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,9 +13,9 @@ const SignUpScreen = () => {
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
-        'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
-        'Mulish-Bold': require('./assets/fonts/Mulish-Bold.ttf'),
-        'Mulish': require('./assets/fonts/Mulish-Regular.ttf'),
+        'Poppins-Bold': require('../../assets/fonts/Poppins-Bold.ttf'),
+        'Mulish-Bold': require('../../assets/fonts/Mulish-Bold.ttf'),
+        'Mulish': require('../../assets/fonts/Mulish-Regular.ttf'),
       });
       setFontsLoaded(true);
     }
@@ -47,6 +47,10 @@ const SignUpScreen = () => {
 
     // Proceed with registration logic here
     Alert.alert("Success", "You have successfully registered.");
+  };
+
+  const navigateToLoginScreen = () => {
+    navigation.navigate('LoginScreen');
   };
 
   if (!fontsLoaded) {
@@ -91,7 +95,7 @@ const SignUpScreen = () => {
         <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
           <Text style={styles.registerButtonText}>CADASTRAR-SE</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.connectButton}>
+        <TouchableOpacity style={styles.connectButton} onPress={navigateToLoginScreen}>
           <Text style={styles.connectButtonText}>Tem uma conta? {"\n\t\t"} Conecte-se</Text>
         </TouchableOpacity>
       </LinearGradient>

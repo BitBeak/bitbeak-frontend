@@ -43,6 +43,10 @@ const LoginScreen = ({ navigation }) => {
     }
   };
 
+  const navigateToSignUpScreen = () => {
+    navigation.navigate('SignUpScreen');
+  };
+
   if (!fontsLoaded) {
     return (
       <View style={styles.loadingContainer}>
@@ -81,7 +85,7 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>INICIAR</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.registerButton}>
+        <TouchableOpacity style={styles.registerButton} onPress={navigateToSignUpScreen}>
           <Text style={styles.registerButtonText}>Cadastre-se</Text>
         </TouchableOpacity>
         <TouchableOpacity>
