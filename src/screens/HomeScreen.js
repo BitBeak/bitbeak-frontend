@@ -32,7 +32,7 @@ const HomeScreen = ({ navigation }) => {
 
   const handleEnterTrail = (trail) => {
     if (trail.unlocked) {
-      Alert.alert("Entrar na Trilha", `Você clicou em 'Entrar na Trilha ${trail.title}'!`);
+      navigation.navigate('MapScreen');
     } else {
       Alert.alert("Trilha Bloqueada", "Esta trilha está bloqueada. Complete a trilha anterior para desbloquear.");
     }
