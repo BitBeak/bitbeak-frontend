@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import LevelHexagon from '../components/LevelHexagon';
 import GiftHexagon from '../components/GiftHexagon';
+import Line from '../components/Line';
 import * as Font from 'expo-font';
 
 const loadFonts = () => {
@@ -20,14 +21,21 @@ const MapScreen = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [levels, setLevels] = useState([]);
   const navigation = useNavigation();
+  const scrollViewRef = useRef(null);
 
   useEffect(() => {
     loadFonts().then(() => setFontsLoaded(true));
     // Simulação da chamada ao back-end
-    setLevels([
-      { level: 1, status: 'unlocked', isSpecial: false },    
+    const levelsData = [
+      { level: 1, status: 'unlocked', isSpecial: false },
+      { level: 2, status: 'locked', isSpecial: false },
+      { level: 3, status: 'locked', isSpecial: false },
+      { level: 4, status: 'locked', isSpecial: false },
+      { level: 5, status: 'locked', isSpecial: false },
+      { level: 6, status: 'locked', isSpecial: false },
       // Adicione mais níveis conforme necessário
-    ]);
+    ].reverse(); // Inverter a ordem dos níveis
+    setLevels(levelsData);
   }, []);
 
   if (!fontsLoaded) {
@@ -47,21 +55,21 @@ const MapScreen = () => {
         <Image source={require('../../assets/icons/dots.png')} style={styles.dotsImage} />
         <Text style={styles.title}>TRILHA I</Text>
         <Text style={styles.subtitle}>LÓGICA DE PROGRAMAÇÃO</Text>
-        <ScrollView contentContainerStyle={styles.scrollView}>
-          {levels.map((level) =>
-            level.isSpecial ? (
-              <GiftHexagon
-                key={level.level}
-                status={level.status}
-              />
-            ) : (
-              <LevelHexagon
-                key={level.level}
-                level={level.level}
-                status={level.status}
-              />
-            )
-          )}
+        <ScrollView
+          contentContainerStyle={styles.scrollView}
+          ref={scrollViewRef}
+          onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: false })}
+        >
+          {levels.map((level, index) => (
+            <View key={index} style={styles.hexagonContainer}>
+              {level.isSpecial ? (
+                <GiftHexagon status={level.status} />
+              ) : (
+                <LevelHexagon level={level.level} status={level.status} />
+              )}
+              {index < levels.length - 1 && <Line />}
+            </View>
+          ))}
         </ScrollView>
       </LinearGradient>
     </SafeAreaProvider>
@@ -81,7 +89,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 80, // Ajuste a posição para baixo sem afetar o título
+    top: 60, // Ajuste a posição para cima/baixo conforme necessário
     left: 20,
   },
   backImage: {
@@ -90,8 +98,8 @@ const styles = StyleSheet.create({
   },
   dotsImage: {
     position: 'absolute',
-    top: 60,
-    left: 20,
+    top: 60, // Alinhe verticalmente com o botão de voltar
+    right: 20, // Altere a posição para a direita
     width: 30,
     height: 30,
   },
@@ -115,6 +123,18 @@ const styles = StyleSheet.create({
   scrollView: {
     alignItems: 'center',
     paddingVertical: 20,
+    justifyContent: 'flex-end', // Alinhar conteúdo no final
+  },
+  hexagonContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  line: {
+    width: 2,
+    height: 120, // Ajuste a altura da linha
+    backgroundColor: '#FFFFFF',
+    marginVertical: -55, // Margem negativa para garantir que a linha toque as pontas dos hexágonos
   },
 });
 
