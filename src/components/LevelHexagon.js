@@ -1,19 +1,27 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-const LevelHexagon = ({ level, status }) => {
+const LevelHexagon = ({ level, status, onPress }) => {
   const getImageSource = () => {
     if (status === 'locked') return require('../../assets/icons/hexagon_locked.png');
     return require('../../assets/icons/hexagon_unlocked.png');
   };
 
+  const handlePress = () => {
+    if (status === 'unlocked') {
+      onPress(level);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Image source={getImageSource()} style={styles.hexagonImage} />
-      {status !== 'locked' && (
-        <Text style={styles.levelText}>{level}</Text>
-      )}
-    </View>
+    <TouchableOpacity onPress={handlePress} disabled={status === 'locked'}>
+      <View style={styles.container}>
+        <Image source={getImageSource()} style={styles.hexagonImage} />
+        {status !== 'locked' && (
+          <Text style={styles.levelText}>{level}</Text>
+        )}
+      </View>
+    </TouchableOpacity>
   );
 };
 

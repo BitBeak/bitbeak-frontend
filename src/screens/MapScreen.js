@@ -38,6 +38,10 @@ const MapScreen = () => {
     setLevels(levelsData);
   }, []);
 
+  const handlePressLevel = (level) => {
+    navigation.navigate('QuestionScreen', { level });
+  };
+
   if (!fontsLoaded) {
     return (
       <View style={styles.loader}>
@@ -65,7 +69,7 @@ const MapScreen = () => {
               {level.isSpecial ? (
                 <GiftHexagon status={level.status} />
               ) : (
-                <LevelHexagon level={level.level} status={level.status} />
+                <LevelHexagon level={level.level} status={level.status} onPress={handlePressLevel} />
               )}
               {index < levels.length - 1 && <Line />}
             </View>
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 60, // Ajuste a posição para cima/baixo conforme necessário
+    top: 60,
     left: 20,
   },
   backImage: {
@@ -98,8 +102,8 @@ const styles = StyleSheet.create({
   },
   dotsImage: {
     position: 'absolute',
-    top: 60, // Alinhe verticalmente com o botão de voltar
-    right: 20, // Altere a posição para a direita
+    top: 60,
+    right: 20,
     width: 30,
     height: 30,
   },
@@ -129,12 +133,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  line: {
-    width: 2,
-    height: 120, // Ajuste a altura da linha
-    backgroundColor: '#FFFFFF',
-    marginVertical: -55, // Margem negativa para garantir que a linha toque as pontas dos hexágonos
   },
 });
 
