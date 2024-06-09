@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ActivityIndicator, StyleSheet, View, Text, Image, TouchableOpacity, StatusBar, Alert, ScrollView, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
 
 const { width } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
+  const { xp, feathers, level, trails } = useContext(AuthContext);
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [expProgress, setExpProgress] = useState(0.5);
-  const [levels, setLevels] = useState({ current: 5, total: 6 });
-  const [trails, setTrails] = useState([
-    { id: 1, title: 'Trilha I: Lógica de Programação', levelsCompleted: 0, totalLevels: 0, unlocked: true },
-    { id: 2, title: 'Trilha II: Algoritmos', levelsCompleted: 0, totalLevels: 0, unlocked: false },
-    { id: 3, title: 'Trilha III: Estruturas de Dados', levelsCompleted: 0, totalLevels: 8, unlocked: false },
-  ]);
+  const [expProgress, setExpProgress] = useState(xp / 100); // Assuming XP is out of 100%
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -25,6 +21,10 @@ const HomeScreen = ({ navigation }) => {
       setFontsLoaded(true);
     })();
   }, []);
+
+  useEffect(() => {
+    setExpProgress(xp / 100); // Update expProgress when xp changes
+  }, [xp]);
 
   if (!fontsLoaded) {
     return <ActivityIndicator size="large" />;
@@ -63,12 +63,12 @@ const HomeScreen = ({ navigation }) => {
               <View style={[styles.expBar, { width: `${expProgress * 100}%` }]} />
             </View>
             <View style={styles.levelCircle}>
-              <Text style={styles.levelText}>{Math.round(expProgress * 100)}</Text>
+              <Text style={styles.levelText}>{level}</Text>
             </View>
           </View>
           <View style={styles.expDetails}>
             <Image source={require('../../assets/icons/feather-icon.png')} style={styles.featherIcon} />
-            <Text style={styles.expPoints}>XXX</Text>
+            <Text style={styles.expPoints}>{feathers}</Text>
           </View>
         </View>
         <View style={styles.titleContainer}>
@@ -84,7 +84,6 @@ const HomeScreen = ({ navigation }) => {
         >
           {trails.map((trail) => (
             <View key={trail.id} style={styles.trailContainer}>
-              {!trail.unlocked && <View style={styles.lockedOverlay} />}
               <Text style={styles.trailTitle}>{trail.title}</Text>
               <Text style={styles.trailLevel}>{trail.levelsCompleted} / {trail.totalLevels} NÍVEIS</Text>
               <TouchableOpacity
@@ -203,7 +202,6 @@ const styles = StyleSheet.create({
   titleContainer: {
     width: '100%',
     alignItems: 'center',
-
   },
   titleHeader: {
     fontFamily: 'Poppins-Bold',
@@ -229,11 +227,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     width: width * 0.88,
-  },
-  lockedOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    borderRadius: 20,
   },
   trailTitle: {
     color: '#FFFFFF',
@@ -292,9 +285,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 5,
+    width: 12, // Aumente a largura
+    height: 12, // Aumente a altura
+    borderRadius: 6, // Metade da largura/altura para torná-los circulares
     backgroundColor: '#FFFFFF',
     marginHorizontal: 5,
   },

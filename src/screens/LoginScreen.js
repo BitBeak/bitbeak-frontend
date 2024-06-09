@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
+import { useFocusEffect } from '@react-navigation/native';
+import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
 
 const LoginScreen = ({ navigation }) => {
+  const { validateUser } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -22,24 +25,21 @@ const LoginScreen = ({ navigation }) => {
     loadFonts();
   }, []);
 
-  const validateInput = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError('Por favor, insira um e-mail válido.');
-      return false;
-    }
-    if (password.length === 0) {
-      setError('Por favor, insira sua senha.');
-      return false;
-    }
-    setError('');
-    return true;
-  };
+  useFocusEffect(
+    React.useCallback(() => {
+      // Clear inputs when the screen gains focus
+      setEmail('');
+      setPassword('');
+      setError('');
+    }, [])
+  );
 
   const handleLogin = () => {
-    if (validateInput()) {
+    if (validateUser(email, password)) {
       console.log('Login successful');
       navigation.navigate('HomeScreen');
+    } else {
+      setError('E-mail ou senha incorretos.');
     }
   };
 
@@ -64,7 +64,7 @@ const LoginScreen = ({ navigation }) => {
           style={styles.inputEmail}
           onChangeText={setEmail}
           value={email}
-          placeholder="Email"
+          placeholder="E-mail"
           keyboardType="email-address"
           placeholderTextColor="#012768"
         />
@@ -78,7 +78,10 @@ const LoginScreen = ({ navigation }) => {
             placeholderTextColor="#012768"
           />
           <TouchableWithoutFeedback onPress={() => setPasswordVisible(!passwordVisible)}>
-            <Text style={styles.toggleIcon}>{passwordVisible ? '👁️' : '👁️‍🗨️'}</Text>
+            <Image
+              source={passwordVisible ? require('../../assets/icons/showPassword.png') : require('../../assets/icons/hidePassword.png')}
+              style={styles.toggleIcon}
+            />
           </TouchableWithoutFeedback>
         </View>
         {error !== '' && <Text style={styles.errorText}>{error}</Text>}
@@ -150,8 +153,8 @@ const styles = StyleSheet.create({
     color: '#012768',
   },
   toggleIcon: {
-    fontSize: 24,
-    color: '#012768',
+    width: 34,
+    height: 34,
   },
   button: {
     width: 319,

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native'; // Assumindo que está usando react-navigation
+import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
 
 const questions = [
   {
@@ -58,15 +59,23 @@ const questions = [
 
 const QuestionScreen = () => {
   const navigation = useNavigation();
+  const { addXp, addFeathers, updateTrailProgress } = useContext(AuthContext);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [correctAnswers, setCorrectAnswers] = useState(0); // Estado para armazenar respostas corretas
 
   const currentQuestion = questions[currentQuestionIndex];
 
   const handleOptionPress = (index) => {
     setSelectedOption(index);
-    setIsCorrect(index === currentQuestion.correctOption);
+    const correct = index === currentQuestion.correctOption;
+    setIsCorrect(correct);
+    if (correct) {
+      setCorrectAnswers(correctAnswers + 1); // Incrementa respostas corretas
+      addXp(10); // Add 10% XP for each correct answer
+      addFeathers(10); // Add 10 feathers for each correct answer
+    }
   };
 
   const handleNextPress = () => {
@@ -75,7 +84,11 @@ const QuestionScreen = () => {
       setSelectedOption(null);
       setIsCorrect(false);
     } else {
-      alert("Você completou todas as perguntas!");
+      const scorePercentage = (correctAnswers / questions.length) * 100;
+      if (scorePercentage >= 70) {
+        updateTrailProgress(1); // Atualiza o progresso da Trilha I
+      }
+      navigation.navigate('HomeScreen');
     }
   };
 

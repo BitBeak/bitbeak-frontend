@@ -32,7 +32,6 @@ const MapScreen = () => {
       { level: 3, status: 'locked', isSpecial: false },
       { level: 4, status: 'locked', isSpecial: false },
       { level: 5, status: 'locked', isSpecial: false },
-      { level: 6, status: 'locked', isSpecial: false },
       // Adicione mais níveis conforme necessário
     ].reverse(); // Inverter a ordem dos níveis
     setLevels(levelsData);

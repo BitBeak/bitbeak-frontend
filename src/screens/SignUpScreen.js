@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
+import { useFocusEffect } from '@react-navigation/native';
+import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
 
-const SignUpScreen = ({navigation}) => {
+const SignUpScreen = ({ navigation }) => {
+  const { registerUser } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,8 +25,18 @@ const SignUpScreen = ({navigation}) => {
     loadFonts();
   }, []);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      // Clear inputs when the screen gains focus
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+    }, [])
+  );
+
   const validateEmail = (email) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   };
 
@@ -45,8 +58,10 @@ const SignUpScreen = ({navigation}) => {
       return;
     }
 
-    // Proceed with registration logic here
+    // Register the user
+    registerUser(email, password);
     Alert.alert("Success", "You have successfully registered.");
+    navigation.navigate('LoginScreen');
   };
 
   const navigateToLoginScreen = () => {
@@ -72,7 +87,7 @@ const SignUpScreen = ({navigation}) => {
           style={styles.input}
           onChangeText={setEmail}
           value={email}
-          placeholder="Email"
+          placeholder="E-mail"
           keyboardType="email-address"
           placeholderTextColor="#012768"
         />
