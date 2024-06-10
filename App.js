@@ -8,6 +8,9 @@ import SignUpScreen from './src/screens/SignUpScreen';
 import MapScreen from './src/screens/MapScreen';
 import QuestionScreen from './src/screens/QuestionScreen';
 import { AuthProvider } from './src/context/AuthContext';
+import FeedbackScreen from './src/screens/FeedbackScreen';
+import ExplanationScreen from './src/screens/ExplanationScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -42,6 +45,8 @@ export default function App() {
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="MapScreen" component={MapScreen} />
           <Stack.Screen name="QuestionScreen" component={QuestionScreen} />
+          <Stack.Screen name="FeedbackScreen" component={FeedbackScreen} />
+          <Stack.Screen name="ExplanationScreen" component={ExplanationScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

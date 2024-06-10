@@ -38,11 +38,16 @@ export const AuthProvider = ({ children }) => {
     setFeathers(prevFeathers => prevFeathers + amount);
   };
 
-  const updateTrailProgress = (trailId) => {
+  const updateTrailProgress = (trailId, levelCompleted) => {
     setTrails((prevTrails) => {
       return prevTrails.map((trail) => {
-        if (trail.id === trailId && trail.levelsCompleted < trail.totalLevels) {
-          return { ...trail, levelsCompleted: 1 };
+        if (trail.id === trailId) {
+          const updatedLevelsCompleted = Math.max(trail.levelsCompleted, levelCompleted);
+          return {
+            ...trail,
+            levelsCompleted: updatedLevelsCompleted,
+            unlocked: true, // Sempre permitir o acesso à trilha
+          };
         }
         return trail;
       });

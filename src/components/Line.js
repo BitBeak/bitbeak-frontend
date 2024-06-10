@@ -8,9 +8,10 @@ const Line = () => {
 const styles = StyleSheet.create({
   line: {
     width: 1,
-    height: 120, // Ajuste a altura da linha conforme necessário
+    height: 120,
     backgroundColor: '#FFFFFF',
-    marginVertical: -55, // Margem negativa para garantir que a linha toque as pontas dos hexágonos
+    marginTop: -55,
+    marginBottom: -26
   },
 });
 

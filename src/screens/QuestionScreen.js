@@ -4,66 +4,279 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
 
-const questions = [
-  {
-    question: "Qual é a finalidade de um loop 'for' em uma linguagem de programação?",
-    options: [
-      "Conectar o programa à internet",
-      "Executar um bloco de código um número específico de vezes",
-      "Criar novas variáveis",
-      "Desenhar gráficos na tela",
-    ],
-    correctOption: 1,
-  },
-  {
-    question: "Qual a diferença entre uma variável e uma constante?",
-    options: [
-      "Variáveis podem mudar, constantes não",
-      "Constantes podem mudar, variáveis não",
-      "Variáveis são usadas para loops, constantes não",
-      "Constantes são usadas para loops, variáveis não",
-    ],
-    correctOption: 0,
-  },
-  {
-    question: "O que é um 'array'?",
-    options: [
-      "Um tipo de loop",
-      "Uma função que retorna verdadeiro ou falso",
-      "Uma coleção de itens armazenados em uma única variável",
-      "Um método de ordenação",
-    ],
-    correctOption: 2,
-  },
-  {
-    question: "Qual a função de um 'if statement'?",
-    options: [
-      "Executar um bloco de código repetidamente",
-      "Verificar uma condição e executar um bloco de código se a condição for verdadeira",
-      "Declarar uma variável",
-      "Criar um loop",
-    ],
-    correctOption: 1,
-  },
-  {
-    question: "O que é recursão em programação?",
-    options: [
-      "Quando uma função chama a si mesma",
-      "Quando um loop não tem fim",
-      "Quando uma variável é declarada várias vezes",
-      "Quando um array contém outros arrays",
-    ],
-    correctOption: 0,
-  },
-];
+const questionsByLevel = {
+  1: [
+    {
+      question: "O que é uma variável?",
+      options: [
+        "Um espaço na memória para armazenar dados temporários",
+        "Uma constante que não pode ser alterada",
+        "Uma função que retorna valores",
+        "Uma estrutura de repetição"
+      ],
+      correctOption: 0,
+    },
+    {
+      question: "Qual palavra-chave usamos para declarar uma variável em JavaScript?",
+      options: [
+        "var",
+        "let",
+        "const",
+        "function"
+      ],
+      correctOption: 1,
+    },
+    {
+      question: "O que é uma constante?",
+      options: [
+        "Um espaço na memória para armazenar dados que não podem ser alterados",
+        "Um tipo de loop",
+        "Uma função que retorna valores",
+        "Uma estrutura condicional"
+      ],
+      correctOption: 0,
+    },
+    {
+      question: "Qual palavra-chave usamos para declarar uma constante em JavaScript?",
+      options: [
+        "let",
+        "var",
+        "const",
+        "loop"
+      ],
+      correctOption: 2,
+    },
+    {
+      question: "O que acontece se você tentar alterar o valor de uma constante?",
+      options: [
+        "O valor será alterado normalmente",
+        "O programa entra em loop infinito",
+        "Um erro será gerado",
+        "Nada acontece"
+      ],
+      correctOption: 2,
+    },
+  ],
+  2: [
+    {
+      question: "O que é uma estrutura condicional?",
+      options: [
+        "Uma estrutura que permite repetir um bloco de código",
+        "Uma estrutura que permite tomar decisões baseadas em condições",
+        "Uma estrutura que define constantes",
+        "Uma estrutura que cria arrays"
+      ],
+      correctOption: 1,
+    },
+    {
+      question: "Qual instrução usamos para criar uma estrutura condicional em JavaScript?",
+      options: [
+        "for",
+        "while",
+        "const",
+        "if"
+      ],
+      correctOption: 3,
+    },
+    {
+      question: "O que a seguinte condição retorna: `if (10 > 5)`?",
+      options: [
+        "true",
+        "false",
+        "undefined",
+        "null"
+      ],
+      correctOption: 0,
+    },
+    {
+      question: "O que acontece se a condição de um `if` não for satisfeita?",
+      options: [
+        "O bloco de código dentro do `if` será executado",
+        "Nada acontece",
+        "O bloco de código dentro do `else` será executado, se houver",
+        "Um erro é gerado"
+      ],
+      correctOption: 2,
+    },
+    {
+      question: "Como verificamos várias condições em uma estrutura condicional?",
+      options: [
+        "Usando vários `if` separados",
+        "Usando `if` e `else if`",
+        "Usando `for` e `while`",
+        "Usando `var` e `let`"
+      ],
+      correctOption: 1,
+    },
+  ],
+  3: [
+    {
+      question: "O que é uma estrutura de repetição?",
+      options: [
+        "Um bloco de código que define uma função",
+        "Um bloco de código que define uma constante",
+        "Um bloco de código que permite repetir ações",
+        "Um bloco de código que cria variáveis"
+      ],
+      correctOption: 2,
+    },
+    {
+      question: "Qual estrutura usamos para repetir um bloco de código um número específico de vezes?",
+      options: [
+        "if",
+        "const",
+        "let",
+        "for"
+      ],
+      correctOption: 3,
+    },
+    {
+      question: "O que a seguinte instrução faz: `for (let i = 0; i < 3; i++) { console.log(i); }`?",
+      options: [
+        "Repete o bloco de código 3 vezes",
+        "Repete o bloco de código indefinidamente",
+        "Repete o bloco de código 2 vezes",
+        "Não repete o bloco de código"
+      ],
+      correctOption: 0,
+    },
+    {
+      question: "Qual estrutura usamos para repetir um bloco de código enquanto uma condição for verdadeira?",
+      options: [
+        "if",
+        "const",
+        "let",
+        "while"
+      ],
+      correctOption: 3,
+    },
+    {
+      question: "O que acontece se a condição em um `while` nunca se tornar falsa?",
+      options: [
+        "O bloco de código será executado indefinidamente",
+        "O bloco de código será executado uma vez",
+        "O bloco de código não será executado",
+        "Um erro é gerado"
+      ],
+      correctOption: 0,
+    },
+  ],
+  4: [
+    {
+      question: "O que é um array?",
+      options: [
+        "Um tipo de variável",
+        "Uma função que retorna valores",
+        "Uma estrutura de dados que armazena uma coleção de itens",
+        "Uma estrutura condicional"
+      ],
+      correctOption: 2,
+    },
+    {
+      question: "Como acessamos o primeiro elemento de um array em JavaScript?",
+      options: [
+        "array(0)",
+        "array[0]",
+        "array{0}",
+        "array.0"
+      ],
+      correctOption: 1,
+    },
+    {
+      question: "Como adicionamos um item no final de um array?",
+      options: [
+        "array.add(item)",
+        "array.push(item)",
+        "array.insert(item)",
+        "array.append(item)"
+      ],
+      correctOption: 1,
+    },
+    {
+      question: "O que a seguinte instrução retorna: `array.length`?",
+      options: [
+        "O primeiro item do array",
+        "O último item do array",
+        "O número de itens no array",
+        "Um erro"
+      ],
+      correctOption: 2,
+    },
+    {
+      question: "Como removemos o último item de um array?",
+      options: [
+        "array.pop()",
+        "array.remove()",
+        "array.delete()",
+        "array.shift()"
+      ],
+      correctOption: 0,
+    },
+  ],
+  5: [
+    {
+      question: "O que é uma função?",
+      options: [
+        "Uma variável que armazena dados",
+        "Um bloco de código que realiza uma tarefa específica",
+        "Uma estrutura de repetição",
+        "Uma estrutura condicional"
+      ],
+      correctOption: 1,
+    },
+    {
+      question: "Como definimos uma função em JavaScript?",
+      options: [
+        "let func() {}",
+        "function func() {}",
+        "const func() {}",
+        "var func() {}"
+      ],
+      correctOption: 1,
+    },
+    {
+      question: "O que a seguinte instrução faz: `return valor` dentro de uma função?",
+      options: [
+        "Encerrar a função e retornar o valor especificado",
+        "Continua a execução da função",
+        "Inicia um loop",
+        "Define uma constante"
+      ],
+      correctOption: 0,
+    },
+    {
+      question: "Como chamamos uma função chamada `saudacao`?",
+      options: [
+        "saudacao()",
+        "call saudacao()",
+        "execute saudacao()",
+        "invoke saudacao()"
+      ],
+      correctOption: 0,
+    },
+    {
+      question: "O que acontece se uma função não tiver um `return`?",
+      options: [
+        "Ela retorna `undefined`",
+        "Ela retorna `null`",
+        "Ela retorna 0",
+        "Um erro é gerado"
+      ],
+      correctOption: 0,
+    },
+  ],
+};
 
-const QuestionScreen = () => {
+const QuestionScreen = ({ route }) => {
+  const { level } = route.params;
+  const questions = questionsByLevel[level];
   const navigation = useNavigation();
   const { addXp, addFeathers, updateTrailProgress } = useContext(AuthContext);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [correctAnswers, setCorrectAnswers] = useState(0); // Estado para armazenar respostas corretas
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [incorrectQuestions, setIncorrectQuestions] = useState([]);
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -72,9 +285,11 @@ const QuestionScreen = () => {
     const correct = index === currentQuestion.correctOption;
     setIsCorrect(correct);
     if (correct) {
-      setCorrectAnswers(correctAnswers + 1); // Incrementa respostas corretas
-      addXp(10); // Add 10% XP for each correct answer
+      setCorrectAnswers(correctAnswers + 1);
+      addXp(10); // Add 10 XP for each correct answer
       addFeathers(10); // Add 10 feathers for each correct answer
+    } else {
+      setIncorrectQuestions([...incorrectQuestions, currentQuestion]);
     }
   };
 
@@ -86,9 +301,9 @@ const QuestionScreen = () => {
     } else {
       const scorePercentage = (correctAnswers / questions.length) * 100;
       if (scorePercentage >= 70) {
-        updateTrailProgress(1); // Atualiza o progresso da Trilha I
+        updateTrailProgress(1, level); // Atualiza o progresso da trilha
       }
-      navigation.navigate('HomeScreen');
+      navigation.navigate('FeedbackScreen', { scorePercentage, incorrectQuestions });
     }
   };
 
@@ -106,7 +321,7 @@ const QuestionScreen = () => {
                 <Image source={require('../../assets/icons/backButton.png')} style={styles.icon} />
               </TouchableOpacity>
             )}
-            <Text style={styles.headerText}>TRILHA 1 - Q{currentQuestionIndex + 1}</Text>
+            <Text style={styles.headerText}>TRILHA {level} - Q{currentQuestionIndex + 1}</Text>
             <Image source={require('../../assets/icons/dots.png')} style={styles.icon} />
           </View>
           <View style={styles.progressBarContainer}>
