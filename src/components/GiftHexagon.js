@@ -4,8 +4,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const GiftHexagon = ({ status }) => {
   const getBackgroundColor = () => {
-    if (status === 'locked') return '#add8e6'; // Cor para hexágono bloqueado especial
-    return '#00bfff'; // Cor para hexágono desbloqueado especial
+    if (status === 'locked') return '#add8e6';
+    return '#00bfff';
   };
 
   return (
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 35, // Tornar o hexágono um círculo
+    borderRadius: 35,
     backgroundColor: '#00bfff',
   },
 });

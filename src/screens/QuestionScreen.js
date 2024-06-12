@@ -383,7 +383,7 @@ const QuestionScreen = ({ route, navigation }) => {
   }, [currentQuestion, correctAnswers, incorrectQuestions, navigation, questions.length, trailNumber, level]);
 
   if (!currentQuestion) {
-    return null; // Renderizar nada enquanto a navegação está acontecendo
+    return null;
   }
 
   switch (currentQuestion.type) {

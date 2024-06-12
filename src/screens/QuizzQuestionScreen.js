@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
+import { AuthContext } from '../context/AuthContext'; 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const QuizzQuestionScreen = ({ route }) => {
@@ -11,29 +11,28 @@ const QuizzQuestionScreen = ({ route }) => {
   const { addXp, addFeathers } = useContext(AuthContext);
   const [selectedOption, setSelectedOption] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [showFeedback, setShowFeedback] = useState(false); // Definindo o estado showFeedback
+  const [showFeedback, setShowFeedback] = useState(false); 
 
   const handleOptionPress = (index) => {
     setSelectedOption(index);
     const correct = index === question.correctOption;
     setIsCorrect(correct);
     if (correct) {
-      addXp(10); // Add 10 XP for each correct answer
-      addFeathers(10); // Add 10 feathers for each correct answer
+      addXp(10); 
+      addFeathers(10); 
       nextScreenParams.correctAnswers = correctAnswers + 1;
     } else {
-      // Certifique-se de que `nextScreenParams.incorrectQuestions` seja sempre um array
       if (!Array.isArray(nextScreenParams.incorrectQuestions)) {
         nextScreenParams.incorrectQuestions = [];
       }
       nextScreenParams.incorrectQuestions.push(question);
       nextScreenParams.correctAnswers = correctAnswers;
     }
-    setShowFeedback(true); // Atualizando o estado showFeedback
+    setShowFeedback(true); 
   };
 
   const handleNextPress = () => {
-    setShowFeedback(false); // Resetando o estado showFeedback
+    setShowFeedback(false); 
     navigation.navigate('QuestionScreen', nextScreenParams);
   };
 

@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
+import { AuthContext } from '../context/AuthContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const COLORS = ['#FF7043', '#66BB6A', '#42A5F5', '#AB47BC'];
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   },
   rightOption: {
     width: 175,
-    height: 180, // Aumentado de 100 para 120
+    height: 180,
     backgroundColor: '#FFD700',
     borderWidth: 1,
     borderColor: '#FFFFFF',

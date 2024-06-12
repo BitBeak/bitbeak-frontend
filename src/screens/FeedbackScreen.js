@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
+import { AuthContext } from '../context/AuthContext';
 
 const FeedbackScreen = ({ route }) => {
   const { scorePercentage, incorrectQuestions, trailNumber, level } = route.params;
@@ -13,7 +13,7 @@ const FeedbackScreen = ({ route }) => {
     if (scorePercentage >= 60) {
       updateTrailProgress(trailNumber, level);
     }
-  }, []); // Remova todas as dependências para evitar loops infinitos
+  }, []);
 
   const handleBackToMap = () => {
     navigation.navigate('MapScreen');

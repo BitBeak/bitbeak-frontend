@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
           return {
             ...trail,
             levelsCompleted: updatedLevelsCompleted,
-            unlocked: true, // Sempre permitir o acesso à trilha
+            unlocked: true,
           };
         }
         return trail;

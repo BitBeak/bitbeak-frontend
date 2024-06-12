@@ -27,8 +27,8 @@ const LevelHexagon = ({ level, status, onPress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 130, // Tamanho do hexágono
-    height: 130, // Tamanho do hexágono
+    width: 130,
+    height: 130,
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
   },
   levelText: {
     position: 'absolute',
-    top: '50%', // Centraliza verticalmente
-    transform: [{ translateY: -30 }], // Ajusta a posição vertical
+    top: '50%',
+    transform: [{ translateY: -30 }],
     color: '#0033cc',
     fontSize: 24,
     fontWeight: 'bold',

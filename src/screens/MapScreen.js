@@ -4,7 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
+import { AuthContext } from '../context/AuthContext';
 import LevelHexagon from '../components/LevelHexagon';
 import GiftHexagon from '../components/GiftHexagon';
 import Line from '../components/Line';
@@ -30,7 +30,7 @@ const MapScreen = () => {
   }, []);
 
   const handlePressLevel = (level) => {
-    const trailNumber = 1; // Ajuste conforme necessário para passar o número da trilha correta
+    const trailNumber = 1;
     navigation.navigate('ExplanationScreen', { level, trailNumber });
   };
 
@@ -48,7 +48,7 @@ const MapScreen = () => {
     { level: 3, status: trails[0].levelsCompleted >= 2 ? 'unlocked' : 'locked', isSpecial: false },
     { level: 4, status: trails[0].levelsCompleted >= 3 ? 'unlocked' : 'locked', isSpecial: false },
     { level: 5, status: trails[0].levelsCompleted >= 4 ? 'unlocked' : 'locked', isSpecial: false },
-  ].reverse(); // Invertendo a ordem dos níveis para renderizar do nível mais baixo para o mais alto
+  ].reverse();
 
   return (
     <SafeAreaProvider>
@@ -64,7 +64,7 @@ const MapScreen = () => {
           contentContainerStyle={styles.scrollView}
           ref={scrollViewRef}
           onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: false })}
-          showsVerticalScrollIndicator={false} // Deixa a barra de scroll invisível
+          showsVerticalScrollIndicator={false}
         >
           {levelsData.map((level, index) => (
             <View key={index} style={styles.hexagonContainer}>

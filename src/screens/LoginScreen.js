@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Imag
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 import { useFocusEffect } from '@react-navigation/native';
-import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
+import { AuthContext } from '../context/AuthContext';
 
 const LoginScreen = ({ navigation }) => {
   const { validateUser } = useContext(AuthContext);
@@ -27,7 +27,6 @@ const LoginScreen = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      // Clear inputs when the screen gains focus
       setEmail('');
       setPassword('');
       setError('');

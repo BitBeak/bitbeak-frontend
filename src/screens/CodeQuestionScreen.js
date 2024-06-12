@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } fro
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
+import { AuthContext } from '../context/AuthContext';
 
 const CodeQuestionScreen = ({ route }) => {
   const { question, nextScreenParams, currentQuestionIndex, trailNumber, correctAnswers = 0, incorrectQuestions = [] } = route.params;
@@ -21,8 +21,8 @@ const CodeQuestionScreen = ({ route }) => {
 
   const handleSendPress = () => {
     if (isCorrect) {
-      addXp(10); // Add 10 XP for each correct answer
-      addFeathers(10); // Add 10 feathers for each correct answer
+      addXp(10);
+      addFeathers(10);
       nextScreenParams.correctAnswers = correctAnswers + 1;
     } else {
       if (!Array.isArray(nextScreenParams.incorrectQuestions)) {

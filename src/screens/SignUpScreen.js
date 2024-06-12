@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Aler
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 import { useFocusEffect } from '@react-navigation/native';
-import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
+import { AuthContext } from '../context/AuthContext';
 
 const SignUpScreen = ({ navigation }) => {
   const { registerUser, validateUser } = useContext(AuthContext);
@@ -29,7 +29,6 @@ const SignUpScreen = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      // Clear inputs when the screen gains focus
       setUsername('');
       setEmail('');
       setPassword('');
@@ -60,13 +59,11 @@ const SignUpScreen = ({ navigation }) => {
       return;
     }
 
-    // Verificar se o usuário já está cadastrado
     if (validateUser(email, password)) {
       Alert.alert("Erro de validação", "Este e-mail já está cadastrado.");
       return;
     }
 
-    // Registrar o usuário
     registerUser(email, password);
     Alert.alert("Sucesso", "Você se registrou com sucesso.");
     navigation.navigate('LoginScreen');

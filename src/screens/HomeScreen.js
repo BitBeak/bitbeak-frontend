@@ -3,14 +3,14 @@ import { ActivityIndicator, StyleSheet, View, Text, Image, TouchableOpacity, Sta
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
+import { AuthContext } from '../context/AuthContext';
 
 const { width } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
   const { xp, feathers, level, trails } = useContext(AuthContext);
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [expProgress, setExpProgress] = useState(xp / 100); // Assuming XP is out of 100%
+  const [expProgress, setExpProgress] = useState(xp / 100);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    setExpProgress(xp / 100); // Update expProgress when xp changes
+    setExpProgress(xp / 100);
   }, [xp]);
 
   if (!fontsLoaded) {
