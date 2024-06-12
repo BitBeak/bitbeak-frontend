@@ -12,6 +12,7 @@ import QuestionScreen from './src/screens/QuestionScreen';
 import { AuthProvider } from './src/context/AuthContext';
 import FeedbackScreen from './src/screens/FeedbackScreen';
 import ExplanationScreen from './src/screens/ExplanationScreen';
+import CodeQuestionScreen from './src/screens/CodeQuestionScreen';
 
 const Stack = createStackNavigator();
 
@@ -50,6 +51,7 @@ export default function App() {
           <Stack.Screen name="MatchColumnsScreen" component={MatchColumnsScreen} />
           <Stack.Screen name="FeedbackScreen" component={FeedbackScreen} />
           <Stack.Screen name="ExplanationScreen" component={ExplanationScreen} />
+          <Stack.Screen name="CodeQuestionScreen" component={CodeQuestionScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

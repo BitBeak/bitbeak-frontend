@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import QuizzQuestionScreen from './QuizzQuestionScreen';
 import MatchColumnsScreen from './MatchColumnsScreen';
+import CodeQuestionScreen from './CodeQuestionScreen';
 
 const questionsByLevel = {
   1: [
@@ -32,6 +33,11 @@ const questionsByLevel = {
       ],
     },
     {
+      type: 'code',
+      prompt: 'Em JavaScript, escreva um código que execute um loop de 1 a 10. Para cada número nesse intervalo, o seu código deve imprimir no console a mensagem "Número atual: X", substituindo o "X" pelo número atual do loop.',
+      correctCode: 'for (let i = 1; i <= 10; i++) { console.log(`Número atual: ${i}`); }'
+    },
+    {
       type: 'quizz',
       question: "Qual palavra-chave usamos para declarar uma variável em JavaScript?",
       options: [
@@ -59,19 +65,14 @@ const questionsByLevel = {
       ],
     },
     {
-      type: 'quizz',
-      question: "O que é uma constante?",
-      options: [
-        "Um espaço na memória para armazenar dados que não podem ser alterados",
-        "Um tipo de loop",
-        "Uma função que retorna valores",
-        "Uma estrutura condicional"
-      ],
-      correctOption: 0,
+      type: 'code',
+      prompt: 'Em JavaScript, escreva um código que imprima os números pares de 1 a 10. O código deve usar uma estrutura de repetição e uma condicional.',
+      correctCode: 'for (let i = 1; i <= 10; i++) { if (i % 2 === 0) { console.log(i); } }'
     },
   ],
   // Adicione mais níveis e questões conforme necessário
 };
+
 
 const QuestionScreen = ({ route, navigation }) => {
   const { level, currentQuestionIndex, trailNumber, correctAnswers = 0, incorrectQuestions = [] } = route.params;
@@ -100,20 +101,30 @@ const QuestionScreen = ({ route, navigation }) => {
     return null; // Renderizar nada enquanto a navegação está acontecendo
   }
 
-  if (currentQuestion.type === 'quizz') {
-    return (
-      <QuizzQuestionScreen
-        navigation={navigation}
-        route={{ params: { ...route.params, question: currentQuestion, nextScreenParams, currentQuestionIndex, trailNumber } }}
-      />
-    );
-  } else {
-    return (
-      <MatchColumnsScreen
-        navigation={navigation}
-        route={{ params: { ...route.params, question: currentQuestion, nextScreenParams, currentQuestionIndex, trailNumber } }}
-      />
-    );
+  switch (currentQuestion.type) {
+    case 'quizz':
+      return (
+        <QuizzQuestionScreen
+          navigation={navigation}
+          route={{ params: { ...route.params, question: currentQuestion, nextScreenParams, currentQuestionIndex, trailNumber } }}
+        />
+      );
+    case 'match':
+      return (
+        <MatchColumnsScreen
+          navigation={navigation}
+          route={{ params: { ...route.params, question: currentQuestion, nextScreenParams, currentQuestionIndex, trailNumber } }}
+        />
+      );
+    case 'code':
+      return (
+        <CodeQuestionScreen
+          navigation={navigation}
+          route={{ params: { ...route.params, question: currentQuestion, nextScreenParams, currentQuestionIndex, trailNumber } }}
+        />
+      );
+    default:
+      return null;
   }
 };
 
