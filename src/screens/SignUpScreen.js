@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, View, Text, TouchableOpacity, Alert, Image, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Font from 'expo-font';
 import { useFocusEffect } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
 
 const SignUpScreen = ({ navigation }) => {
-  const { registerUser } = useContext(AuthContext);
+  const { registerUser, validateUser } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
@@ -42,25 +44,31 @@ const SignUpScreen = ({ navigation }) => {
 
   const handleRegistration = () => {
     if (!username || !email || !password || !confirmPassword) {
-      Alert.alert("Validation Error", "Please fill in all fields.");
+      Alert.alert("Erro de validação", "Por favor, preencha todos os campos.");
       return;
     }
     if (!validateEmail(email)) {
-      Alert.alert("Validation Error", "Please enter a valid email address.");
+      Alert.alert("Erro de validação", "Por favor, insira um e-mail válido.");
       return;
     }
     if (password !== confirmPassword) {
-      Alert.alert("Validation Error", "Passwords do not match.");
+      Alert.alert("Erro de validação", "As senhas não coincidem.");
       return;
     }
     if (password.length < 8) {
-      Alert.alert("Validation Error", "Password should be at least 8 characters long.");
+      Alert.alert("Erro de validação", "A senha precisa possuir no mínimo 8 caracteres.");
       return;
     }
 
-    // Register the user
+    // Verificar se o usuário já está cadastrado
+    if (validateUser(email, password)) {
+      Alert.alert("Erro de validação", "Este e-mail já está cadastrado.");
+      return;
+    }
+
+    // Registrar o usuário
     registerUser(email, password);
-    Alert.alert("Success", "You have successfully registered.");
+    Alert.alert("Sucesso", "Você se registrou com sucesso.");
     navigation.navigate('LoginScreen');
   };
 
@@ -91,22 +99,38 @@ const SignUpScreen = ({ navigation }) => {
           keyboardType="email-address"
           placeholderTextColor="#012768"
         />
-        <TextInput
-          style={styles.input}
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry
-          placeholder="Senha"
-          placeholderTextColor="#012768"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={setConfirmPassword}
-          value={confirmPassword}
-          secureTextEntry
-          placeholder="Confirme a senha"
-          placeholderTextColor="#012768"
-        />
+        <View style={styles.inputPasswordContainer}>
+          <TextInput
+            style={styles.inputPassword}
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry={!passwordVisible}
+            placeholder="Senha"
+            placeholderTextColor="#012768"
+          />
+          <TouchableWithoutFeedback onPress={() => setPasswordVisible(!passwordVisible)}>
+            <Image
+              source={passwordVisible ? require('../../assets/icons/showPassword.png') : require('../../assets/icons/hidePassword.png')}
+              style={styles.toggleIcon}
+            />
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={styles.inputPasswordContainer}>
+          <TextInput
+            style={styles.inputPassword}
+            onChangeText={setConfirmPassword}
+            value={confirmPassword}
+            secureTextEntry={!confirmPasswordVisible}
+            placeholder="Confirme a senha"
+            placeholderTextColor="#012768"
+          />
+          <TouchableWithoutFeedback onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)}>
+            <Image
+              source={confirmPasswordVisible ? require('../../assets/icons/showPassword.png') : require('../../assets/icons/hidePassword.png')}
+              style={styles.toggleIcon}
+            />
+          </TouchableWithoutFeedback>
+        </View>
         <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
           <Text style={styles.registerButtonText}>CADASTRAR-SE</Text>
         </TouchableOpacity>
@@ -149,6 +173,26 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontFamily: 'Mulish',
     color: '#012768',
+  },
+  inputPasswordContainer: {
+    flexDirection: 'row',
+    width: 319,
+    height: 63,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 31.5,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  inputPassword: {
+    flex: 1,
+    fontFamily: 'Mulish',
+    fontSize: 18,
+    color: '#012768',
+  },
+  toggleIcon: {
+    width: 34,
+    height: 34,
   },
   registerButton: {
     width: 319,

@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
 
 const CodeQuestionScreen = ({ route }) => {
   const { question, nextScreenParams, currentQuestionIndex, trailNumber, correctAnswers = 0, incorrectQuestions = [] } = route.params;
   const navigation = useNavigation();
+  const { addXp, addFeathers } = useContext(AuthContext);
   const [code, setCode] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -19,6 +21,8 @@ const CodeQuestionScreen = ({ route }) => {
 
   const handleSendPress = () => {
     if (isCorrect) {
+      addXp(10); // Add 10 XP for each correct answer
+      addFeathers(10); // Add 10 feathers for each correct answer
       nextScreenParams.correctAnswers = correctAnswers + 1;
     } else {
       if (!Array.isArray(nextScreenParams.incorrectQuestions)) {
@@ -45,7 +49,7 @@ const CodeQuestionScreen = ({ route }) => {
                 colors={['#FDD835', '#FBC02D']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={[styles.progressBarFill, { width: `${((currentQuestionIndex + 1) / 5) * 100}%` }]}
+                style={[styles.progressBarFill, { width: `${((currentQuestionIndex + 1) / 6) * 100}%` }]}
               />
             </View>
           </View>
@@ -191,6 +195,17 @@ const styles = StyleSheet.create({
   modalText: {
     color: '#FFFFFF',
     fontSize: 18,
+    fontWeight: 'bold',
+  },
+  nextButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+  },
+  nextButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
     fontWeight: 'bold',
   },
 });

@@ -1,27 +1,39 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
 
 const FeedbackScreen = ({ route }) => {
-  const { scorePercentage, incorrectQuestions } = route.params;
+  const { scorePercentage, incorrectQuestions, trailNumber, level } = route.params;
   const navigation = useNavigation();
+  const { updateTrailProgress } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (scorePercentage >= 60) {
+      updateTrailProgress(trailNumber, level);
+    }
+  }, []); // Remova todas as dependências para evitar loops infinitos
 
   const handleBackToMap = () => {
     navigation.navigate('MapScreen');
   };
+
+  const roundedScorePercentage = Math.round(scorePercentage);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <LinearGradient colors={['#012768', '#006FC2']} style={styles.container}>
         <View style={styles.body}>
           <Text style={styles.feedbackTitle}>Seu desempenho</Text>
-          <Text style={styles.scoreText}>Você acertou {scorePercentage}% das perguntas!</Text>
+          <Text style={styles.scoreText}>Você acertou {roundedScorePercentage}% das perguntas!</Text>
           {incorrectQuestions.length > 0 && (
             <View style={styles.feedbackContainer}>
               <Text style={styles.feedbackSubtitle}>Você precisa revisar:</Text>
               {incorrectQuestions.map((question, index) => (
-                <Text key={index} style={styles.feedbackText}>{question.question}</Text>
+                <Text key={index} style={styles.feedbackText}>
+                  {question.type === 'code' ? question.prompt : question.question}
+                </Text>
               ))}
             </View>
           )}

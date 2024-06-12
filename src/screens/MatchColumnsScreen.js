@@ -14,7 +14,7 @@ const MatchColumnsScreen = ({ route }) => {
   const [selectedLeft, setSelectedLeft] = useState(null);
   const [selectedRight, setSelectedRight] = useState(null);
   const [pairs, setPairs] = useState([]);
-  const [showFeedback, setShowFeedback] = useState(false); // Definindo o estado showFeedback
+  const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
 
   const handleLeftSelect = (item) => {
@@ -50,18 +50,17 @@ const MatchColumnsScreen = ({ route }) => {
       addFeathers(10);
       nextScreenParams.correctAnswers = correctAnswers + 1;
     } else {
-      // Certifique-se de que `nextScreenParams.incorrectQuestions` seja sempre um array
       if (!Array.isArray(nextScreenParams.incorrectQuestions)) {
         nextScreenParams.incorrectQuestions = [];
       }
       nextScreenParams.incorrectQuestions.push(question);
       nextScreenParams.correctAnswers = correctAnswers;
     }
-    setShowFeedback(true); // Atualizando o estado showFeedback
+    setShowFeedback(true);
   };
 
   const handleNextPress = () => {
-    setShowFeedback(false); // Resetando o estado showFeedback
+    setShowFeedback(false);
     navigation.navigate('QuestionScreen', nextScreenParams);
   };
 
@@ -91,7 +90,7 @@ const MatchColumnsScreen = ({ route }) => {
                 colors={['#FDD835', '#FBC02D']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={[styles.progressBarFill, { width: `${((currentQuestionIndex + 1) / 5) * 100}%` }]}
+                style={[styles.progressBarFill, { width: `${((currentQuestionIndex + 1) / 6) * 100}%` }]}
               />
             </View>
           </View>
@@ -210,6 +209,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 30,
+    marginTop: 30,
   },
   leftColumn: {
     flexDirection: 'row',
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   },
   rightOption: {
     width: 175,
-    height: 100,
+    height: 180, // Aumentado de 100 para 120
     backgroundColor: '#FFD700',
     borderWidth: 1,
     borderColor: '#FFFFFF',

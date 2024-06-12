@@ -51,7 +51,7 @@ const QuizzQuestionScreen = ({ route }) => {
                 colors={['#FDD835', '#FBC02D']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={[styles.progressBarFill, { width: `${((currentQuestionIndex + 1) / 5) * 100}%` }]}
+                style={[styles.progressBarFill, { width: `${((currentQuestionIndex + 1) / 6) * 100}%` }]}
               />
             </View>
           </View>

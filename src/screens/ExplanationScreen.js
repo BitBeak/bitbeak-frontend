@@ -26,8 +26,18 @@ Tente sempre usar const a menos que você saiba que a variável precisará mudar
     `,
   },
   2: {
-    title: "Estruturas Condicionais",
+    title: "Operadores e Estruturas Condicionais",
     content: `
+Operadores são usados para realizar operações em variáveis e valores. Em JavaScript, temos operadores aritméticos, operadores de atribuição, operadores de comparação, entre outros.
+
+Exemplo de operadores aritméticos:
+\`\`\`javascript
+let soma = 5 + 3; // soma = 8
+let subtracao = 5 - 3; // subtracao = 2
+let multiplicacao = 5 * 3; // multiplicacao = 15
+let divisao = 5 / 3; // divisao = 1.666...
+\`\`\`
+
 Estruturas condicionais permitem que um programa tome decisões com base em certas condições. A instrução if é uma das mais comuns e verifica se uma condição é verdadeira, executando um bloco de código se for.
 
 Exemplo:
@@ -39,72 +49,12 @@ if (idade >= 18) {
   console.log("Você é menor de idade.");
 }
 \`\`\`
-
-Você também pode usar else if para verificar múltiplas condições:
-
-Exemplo:
-\`\`\`javascript
-let nota = 85;
-if (nota >= 90) {
-  console.log("A");
-} else if (nota >= 80) {
-  console.log("B");
-} else if (nota >= 70) {
-  console.log("C");
-} else {
-  console.log("D");
-}
-\`\`\`
     `,
   },
   3: {
-    title: "Estruturas de Repetição",
+    title: "Funções e Arrays",
     content: `
-Estruturas de repetição permitem que um bloco de código seja executado várias vezes. O loop for é uma das estruturas mais utilizadas e é ideal quando você sabe quantas vezes deseja executar um bloco de código.
-
-Exemplo de loop for:
-\`\`\`javascript
-for (let i = 0; i < 5; i++) {
-  console.log(i);
-}
-\`\`\`
-
-O loop while é usado quando você quer repetir um bloco de código enquanto uma condição for verdadeira.
-
-Exemplo de loop while:
-\`\`\`javascript
-let i = 0;
-while (i < 5) {
-  console.log(i);
-  i++;
-}
-\`\`\`
-    `,
-  },
-  4: {
-    title: "Arrays",
-    content: `
-Um array é uma estrutura de dados que armazena uma coleção de itens, como números ou strings, em uma única variável. Os itens são acessados usando índices.
-
-Exemplo de array:
-\`\`\`javascript
-let frutas = ["maçã", "banana", "laranja"];
-console.log(frutas[0]); // saída: maçã
-\`\`\`
-
-Você pode adicionar itens a um array usando o método push e remover itens usando o método pop.
-
-Exemplo:
-\`\`\`javascript
-frutas.push("uva"); // adiciona "uva" ao final do array
-frutas.pop(); // remove o último item do array
-\`\`\`
-    `,
-  },
-  5: {
-    title: "Funções",
-    content: `
-Uma função é um bloco de código projetado para realizar uma tarefa específica. As funções são definidas com a palavra-chave function seguida por um nome, parênteses e um bloco de código.
+Funções são blocos de código projetados para realizar uma tarefa específica. Elas podem receber parâmetros e retornar valores. 
 
 Exemplo de função:
 \`\`\`javascript
@@ -114,14 +64,73 @@ function saudacao(nome) {
 console.log(saudacao("João")); // saída: Olá, João!
 \`\`\`
 
-Funções podem receber parâmetros e retornar valores. O return dentro de uma função encerra a função e retorna o valor especificado.
+Arrays são estruturas de dados que armazenam uma coleção de itens, como números ou strings, em uma única variável. 
 
-Exemplo:
+Exemplo de array:
 \`\`\`javascript
-function soma(a, b) {
-  return a + b;
+let frutas = ["maçã", "banana", "laranja"];
+console.log(frutas[0]); // saída: maçã
+\`\`\`
+    `,
+  },
+  4: {
+    title: "Métodos de Arrays e Objetos",
+    content: `
+Métodos de arrays são funções que podemos usar para manipular arrays. Alguns métodos comuns são push, pop, shift, unshift, entre outros.
+
+Exemplo de métodos de arrays:
+\`\`\`javascript
+let frutas = ["maçã", "banana", "laranja"];
+frutas.push("uva"); // adiciona "uva" ao final do array
+frutas.pop(); // remove o último item do array
+\`\`\`
+
+Objetos são coleções de propriedades, e uma propriedade é uma associação entre um nome (ou chave) e um valor. 
+
+Exemplo de objeto:
+\`\`\`javascript
+let pessoa = {
+  nome: "João",
+  idade: 30,
+  saudacao: function() {
+    return \`Olá, meu nome é \${this.nome}\`;
+  }
+};
+console.log(pessoa.saudacao()); // saída: Olá, meu nome é João
+\`\`\`
+    `,
+  },
+  5: {
+    title: "Padrões de Projeto e Recursão",
+    content: `
+Padrões de projeto são soluções reutilizáveis para problemas comuns no desenvolvimento de software. Alguns padrões comuns são Singleton, Observer, Factory e Decorator.
+
+Exemplo de padrão Singleton:
+\`\`\`javascript
+class Singleton {
+  constructor() {
+    if (!Singleton.instance) {
+      Singleton.instance = this;
+    }
+    return Singleton.instance;
+  }
 }
-console.log(soma(3, 4)); // saída: 7
+const instance = new Singleton();
+Object.freeze(instance);
+console.log(instance);
+\`\`\`
+
+Recursão é uma técnica onde uma função chama a si mesma para resolver um problema.
+
+Exemplo de recursão:
+\`\`\`javascript
+function factorial(n) {
+  if (n === 0) {
+    return 1;
+  }
+  return n * factorial(n - 1);
+}
+console.log(factorial(5)); // saída: 120
 \`\`\`
     `,
   },
@@ -155,7 +164,7 @@ const ExplanationScreen = ({ route }) => {
           </View>
         </ScrollView>
         <TouchableOpacity style={styles.nextButton} onPress={handleNextPress}>
-          <Text style={styles.nextButtonText}>Ir para as Perguntas</Text>
+          <Text style={styles.nextButtonText}>Ir para as perguntas</Text>
         </TouchableOpacity>
       </LinearGradient>
     </SafeAreaView>
