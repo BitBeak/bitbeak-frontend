@@ -32,7 +32,7 @@ const HomeScreen = ({ navigation }) => {
 
   const handleEnterTrail = (trail) => {
     if (trail.unlocked) {
-      navigation.navigate('MapScreen');
+      navigation.navigate('MapScreen', { trailNumber: trail.id });
     } else {
       Alert.alert("Trilha Bloqueada", "Esta trilha está bloqueada. Complete a trilha anterior para desbloquear.");
     }
@@ -285,9 +285,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   dot: {
-    width: 12, // Aumente a largura
-    height: 12, // Aumente a altura
-    borderRadius: 6, // Metade da largura/altura para torná-los circulares
+    width: 12,
+    height: 12,
+    borderRadius: 6,
     backgroundColor: '#FFFFFF',
     marginHorizontal: 5,
   },

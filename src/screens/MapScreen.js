@@ -30,7 +30,8 @@ const MapScreen = () => {
   }, []);
 
   const handlePressLevel = (level) => {
-    navigation.navigate('ExplanationScreen', { level });
+    const trailNumber = 1; // Ajuste conforme necessário para passar o número da trilha correta
+    navigation.navigate('ExplanationScreen', { level, trailNumber });
   };
 
   if (!fontsLoaded) {

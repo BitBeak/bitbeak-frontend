@@ -128,11 +128,11 @@ console.log(soma(3, 4)); // saída: 7
 };
 
 const ExplanationScreen = ({ route }) => {
-  const { level } = route.params;
+  const { level, trailNumber } = route.params;
   const navigation = useNavigation();
 
   const handleNextPress = () => {
-    navigation.navigate('QuestionScreen', { level });
+    navigation.navigate('QuestionScreen', { level, currentQuestionIndex: 0, trailNumber });
   };
 
   const explanation = explanations[level];
